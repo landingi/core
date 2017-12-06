@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Infrastructure\UI\Paginator;
 
-use Infrastructure\Doctrine\DbalQuery;
+use Landingi\Shared\Infrastructure\Doctrine\DbalQuery;
 
 class QueryResult
 {
