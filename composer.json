@@ -1,0 +1,30 @@
+{
+    "name": "landingi/core",
+    "description": "Landingi Standard Library",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "nexik",
+            "email": "tomek@landingi.com"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "doctrine/dbal": "^2.6"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Landingi\\Shared\\" : "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Landingi\\Shared\\" : "test/"
+        }
+    },
+    "minimum-stability": "stable"
+}
