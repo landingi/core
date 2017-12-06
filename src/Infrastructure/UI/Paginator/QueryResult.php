@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Infrastructure\UI\Paginator;
+namespace Landingi\Shared\Infrastructure\UI\Paginator;
 
 use Landingi\Shared\Infrastructure\Doctrine\DbalQuery;
 
