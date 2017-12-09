@@ -24,11 +24,12 @@ class QueryResult
 
     /**
      * @return array
+     * @throws \Doctrine\DBAL\DBALException
      */
     public function getItems(): array
     {
         if (null === $this->items) {
-            $this->items = $this->getLimitedQuery()->execute()->fetchAll();
+            $this->items = $this->getLimitedQuery()->executeQuery()->fetchAll();
         }
 
         return $this->items;
@@ -36,11 +37,12 @@ class QueryResult
 
     /**
      * @return int
+     * @throws \Doctrine\DBAL\DBALException
      */
     public function getTotal(): int
     {
         if (null === $this->total) {
-            $this->total = $this->query->execute()->rowCount();
+            $this->total = $this->query->executeQuery()->rowCount();
         }
 
         return $this->total;
