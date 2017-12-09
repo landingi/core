@@ -5,37 +5,63 @@ namespace Landingi\Shared\Infrastructure\UI\Paginator;
 
 use Landingi\Shared\Infrastructure\Doctrine\DbalQuery;
 use Landingi\Shared\Infrastructure\UI\Paginator;
+use Landingi\Shared\Infrastructure\UI\Paginator\Query\QueryLimit;
 
 class QueryPaginator implements Paginator
 {
-    private $result;
     private $limit;
     private $page;
+    private $query;
 
-    public function __construct(DbalQuery $query, int $page, int $limit = 10)
+    /** For internal cache */
+    private $result;
+
+    public static function factory(DbalQuery $query, int $page, int $limit)
     {
+        return new self(
+            $query,
+            new Paginator\Page($page),
+            new QueryLimit($limit)
+        );
+    }
+
+    public function __construct(DbalQuery $query, Paginator\Page $page, QueryLimit $limit)
+    {
+        $this->query = $query;
         $this->page = $page;
         $this->limit = $limit;
-        $this->result = new QueryResult($query, $this->limit, ($this->page - 1) * $this->limit);
     }
 
     public function getPage(): Paginator\Page
     {
-        return new Paginator\Page($this->page);
+        return $this->page;
     }
 
     public function getItems(): array
     {
-        return $this->result->getItems();
+        return $this->getResult()->getItems();
     }
 
     public function count(): int
     {
-        return $this->result->getTotal();
+        return $this->getResult()->getTotal();
     }
 
     public function getLimit(): int
     {
-        return $this->limit;
+        return $this->limit->toNumber();
+    }
+
+    private function getResult()
+    {
+        if (!$this->result) {
+            $this->result = new QueryResult(
+                $this->query,
+                $this->limit,
+                new Paginator\Query\QueryOffset($this->page, $this->limit)
+            );
+        }
+
+        return $this->result;
     }
 }

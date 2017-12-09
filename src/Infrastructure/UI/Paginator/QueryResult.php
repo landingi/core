@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Landingi\Shared\Infrastructure\UI\Paginator;
 
 use Landingi\Shared\Infrastructure\Doctrine\DbalQuery;
+use Landingi\Shared\Infrastructure\UI\Paginator\Query\QueryLimit;
+use Landingi\Shared\Infrastructure\UI\Paginator\Query\QueryOffset;
 
 class QueryResult
 {
@@ -13,7 +15,7 @@ class QueryResult
     private $items;
     private $total;
 
-    public function __construct(DbalQuery $query, $limit, $offset)
+    public function __construct(DbalQuery $query, QueryLimit $limit, QueryOffset $offset)
     {
         $this->query = $query;
         $this->limit = $limit;
@@ -47,8 +49,8 @@ class QueryResult
     private function getLimitedQuery() : DbalQuery
     {
         $query = clone $this->query;
-        $query->setMaxResults($this->limit);
-        $query->setFirstResult($this->offset);
+        $query->setMaxResults($this->limit->toNumber());
+        $query->setFirstResult($this->offset->toNumber());
 
         return $query;
     }
