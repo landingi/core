@@ -23,6 +23,10 @@ abstract class DbalQuery extends QueryBuilder
      */
     public function executeQuery() : Statement
     {
-        return $this->getConnection()->executeQuery($this->getSQL());
+        return $this->getConnection()->executeQuery(
+            $this->getSQL(),
+            $this->getParameters(),
+            $this->getParameterTypes()
+        );
     }
 }
