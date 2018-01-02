@@ -26,7 +26,7 @@ abstract class DoctrineRepository extends EntityRepository
     /**
      * @throws \Landingi\Shared\Infrastructure\Doctrine\Exception\EntityNotExists
      */
-    public function findOneByQuery(Query $query) : object
+    public function findOneByQuery(Query $query)
     {
         $query->setMaxResults(1);
         $entity = $query->execute();
