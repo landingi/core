@@ -26,7 +26,7 @@ class QueryResult
      * @return array
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function getItems(): array
+    public function getItems() : array
     {
         if (null === $this->items) {
             $this->items = $this->getLimitedQuery()->executeQuery()->fetchAll();
@@ -35,14 +35,12 @@ class QueryResult
         return $this->items;
     }
 
-    /**
-     * @return int
-     * @throws \Doctrine\DBAL\DBALException
-     */
-    public function getTotal(): int
+    public function getTotal() : int
     {
         if (null === $this->total) {
-            $this->total = $this->query->executeQuery()->rowCount();
+            $this->total = (int) $this->query->getConnection()->fetchColumn(
+                sprintf('SELECT COUNT(*) FROM (%s) t', $this->query)
+            );
         }
 
         return $this->total;
