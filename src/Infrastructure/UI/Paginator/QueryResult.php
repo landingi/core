@@ -39,7 +39,10 @@ class QueryResult
     {
         if (null === $this->total) {
             $this->total = (int) $this->query->getConnection()->fetchColumn(
-                sprintf('SELECT COUNT(*) FROM (%s) t', $this->query)
+                sprintf('SELECT COUNT(*) FROM (%s) t', $this->query),
+                $this->query->getParameters(),
+                0,
+                $this->query->getParameterTypes()
             );
         }
 
