@@ -21,5 +21,7 @@ class LimitMessageExtension extends EmptyExtension
         if ($this->messageProcessed >= $this->messageLimit) {
             throw new LimitReached("Message limit reached: {$this->messageLimit}");
         }
+
+        $this->messageProcessed++;
     }
 }
