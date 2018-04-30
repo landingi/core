@@ -8,13 +8,16 @@ use Aws\Sqs\SqsClient as BaseClient;
 
 class SqsClient extends BaseClient
 {
-    public function __construct(string $region)
+    public function __construct(string $region, array $options = [])
     {
-        $config = [
-            'credentials' => CredentialProvider::ini('sqs', getenv('AWS_CREDENTIALS_PROFILES_FILE')),
-            'region' => $region,
-            'version' => '2012-11-05'
-        ];
+        $config = array_merge(
+            ['region' => $region, 'version' => '2012-11-05'],
+            $options
+        );
+
+        if (empty($config['credentials']) && !array_key_exists('credentials', $options)) {
+            $config['credentials'] = CredentialProvider::ini('sqs', getenv('AWS_CREDENTIALS_PROFILES_FILE'));
+        }
 
         if ($endpoint = getenv('AWS_SQS_ENDPOINT')) {
             $config['endpoint'] = $endpoint;

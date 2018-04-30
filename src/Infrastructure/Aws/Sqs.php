@@ -13,14 +13,14 @@ class Sqs
     private $queuePrefix;
     private $sqs;
 
-    public static function landingiFrankfurt() : Sqs
+    public static function landingiFrankfurt(array $options = []) : Sqs
     {
-        return new self(new SqsRegionClient('eu-central-1'));
+        return new self(new SqsRegionClient('eu-central-1', $options));
     }
 
-    public static function landingiIreland(): Sqs
+    public static function landingiIreland(array $options = []) : Sqs
     {
-        return new self(new SqsRegionClient('eu-west-1'));
+        return new self(new SqsRegionClient('eu-west-1', $options));
     }
 
     public function __construct(SqsClient $client)
