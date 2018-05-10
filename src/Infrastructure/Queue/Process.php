@@ -7,18 +7,27 @@ class Process
 {
     private $transport;
     private $extensions;
+    private $timeLimit;
+    private $processStart;
 
-    public function __construct(Transport $transport, array $extensions = [])
+    public function __construct(Transport $transport, array $extensions = [], int $limitInSeconds = 0)
     {
         $this->transport = $transport;
         $this->extensions = $extensions;
+        $this->timeLimit = $limitInSeconds;
     }
 
     public function process(\Closure $consumer) : void
     {
+        $this->processStart = time();
+
         while (true) {
             foreach ($this->transport->getMessages() as $message) {
                 try {
+                    if ($this->isTimeLimitReached()) {
+                        return;
+                    }
+
                     $this->onProcessStart();
                     $consumer($message);
                     $this->transport->remove($message);
@@ -38,6 +47,10 @@ class Process
                     $this->transport->remove($message);
                 }
             }
+
+            if ($this->isTimeLimitReached()) {
+                return;
+            }
         }
     }
 
@@ -53,5 +66,14 @@ class Process
         array_walk($this->extensions, function (Extension $extension) use ($exception, $message) {
             $extension->onExceptionThrown($exception, $message);
         });
+    }
+
+    private function isTimeLimitReached() : bool
+    {
+        if (!$this->timeLimit) {
+            return false;
+        }
+
+        return time() >= $this->processStart + $this->timeLimit;
     }
 }
