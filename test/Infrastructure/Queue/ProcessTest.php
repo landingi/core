@@ -2,13 +2,17 @@
 namespace Landingi\Shared\Infrastructure\Queue;
 
 use Landingi\Fake\SqsTransport;
+use Landingi\Shared\Infrastructure\Queue\Extension\LimitTimeExtension;
 use PHPUnit\Framework\TestCase;
 
 class ProcessTest extends TestCase
 {
     public function testStopsByTimeLimitOnEmptyQueue()
     {
-        $process = new Process(SqsTransport::withNoMessages(), [], 1);
+        $process = new Process(
+            SqsTransport::withNoMessages(),
+            [new LimitTimeExtension(1)]
+        );
         $start = time();
 
         $process->process(function () {});
@@ -19,10 +23,10 @@ class ProcessTest extends TestCase
     public function testStopsByTimeLimitOnLongConsumer()
     {
         $transport = SqsTransport::withEmptyMessages(5);
-        $process = new Process($transport, [], 2);
+        $process = new Process($transport, [new LimitTimeExtension(2)]);
         $start = time();
 
-        $process->process(function (Message $message) {
+        $process->process(function () {
             sleep(1);
         });
 

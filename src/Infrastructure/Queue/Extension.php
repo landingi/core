@@ -5,6 +5,8 @@ namespace Landingi\Shared\Infrastructure\Queue;
 
 interface Extension
 {
-    public function onProcessStart() : void;
-    public function onExceptionThrown(\Throwable $exception, Message $message) : void;
+    public function onProcessIterationStart() : void;
+    public function onProcessIterationExceptionThrown(\Throwable $exception) : void;
+    public function onMessageProcessingStart() : void;
+    public function onMessageProcessingExceptionThrown(\Throwable $exception, Message $message) : void;
 }

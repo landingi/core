@@ -15,12 +15,20 @@ class LoggerExtension extends EmptyExtension
         $this->logger = $logger;
     }
 
-    public function onExceptionThrown(\Throwable $exception, Message $message) : void
+    public function onMessageProcessingExceptionThrown(\Throwable $exception, Message $message) : void
     {
         $this->logger->error($exception->getMessage(), [
             'exception' => $exception,
             'exception-code' => $exception->getCode(),
             'message' => $message->getBody(),
+        ]);
+    }
+
+    public function onProcessIterationExceptionThrown(\Throwable $exception): void
+    {
+        $this->logger->error($exception->getMessage(), [
+            'exception' => $exception,
+            'exception-code' => $exception->getCode()
         ]);
     }
 }

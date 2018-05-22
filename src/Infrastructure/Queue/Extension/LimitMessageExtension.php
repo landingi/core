@@ -16,7 +16,7 @@ class LimitMessageExtension extends EmptyExtension
         $this->messageProcessed = 0;
     }
 
-    public function onProcessStart() : void
+    public function onMessageProcessingStart() : void
     {
         if ($this->messageProcessed >= $this->messageLimit) {
             throw new LimitReached("Message limit reached: {$this->messageLimit}");

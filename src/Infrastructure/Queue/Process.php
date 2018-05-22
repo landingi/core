@@ -7,73 +7,73 @@ class Process
 {
     private $transport;
     private $extensions;
-    private $timeLimit;
-    private $processStart;
 
-    public function __construct(Transport $transport, array $extensions = [], int $limitInSeconds = 0)
+    public function __construct(Transport $transport, array $extensions = [])
     {
         $this->transport = $transport;
         $this->extensions = $extensions;
-        $this->timeLimit = $limitInSeconds;
     }
 
     public function process(\Closure $consumer) : void
     {
-        $this->processStart = time();
-
         while (true) {
-            foreach ($this->transport->getMessages() as $message) {
-                try {
-                    if ($this->isTimeLimitReached()) {
-                        return;
-                    }
+            try {
+                $this->onProcessIterationStart();
 
-                    $this->onProcessStart();
-                    $consumer($message);
-                    $this->transport->remove($message);
-                } catch (Exception\LimitReached $e) {
-                    return;
-                } catch (Exception\IgnoreException $e) {
-                    $this->transport->remove($message);
-                } catch (Exception\RetryException $e) {
-                    if ($message->isLooped()) {
-                        $this->onExceptionThrown($e->getPrevious(), $message);
+                foreach ($this->transport->getMessages() as $message) {
+                    try {
+                        $this->onMessageProcessingStart();
+                        $consumer($message);
                         $this->transport->remove($message);
-                    } else {
-                        $this->transport->retry($message);
+                    } catch (Exception\LimitReached $e) {
+                        return;
+                    } catch (Exception\IgnoreException $e) {
+                        $this->transport->remove($message);
+                    } catch (Exception\RetryException $e) {
+                        if ($message->isLooped()) {
+                            $this->onMessageProcessingExceptionThrown($e->getPrevious(), $message);
+                            $this->transport->remove($message);
+                        } else {
+                            $this->transport->retry($message);
+                        }
+                    } catch (\Throwable $e) {
+                        $this->onMessageProcessingExceptionThrown($e, $message);
+                        $this->transport->remove($message);
                     }
-                } catch (\Throwable $e) {
-                    $this->onExceptionThrown($e, $message);
-                    $this->transport->remove($message);
                 }
-            }
-
-            if ($this->isTimeLimitReached()) {
+            } catch (Exception\LimitReached $exception) {
                 return;
+            } catch (\Throwable $e) {
+                $this->onProcessIterationExceptionThrown($e);
             }
         }
     }
 
-    private function onProcessStart() : void
+    private function onProcessIterationStart() : void
     {
         array_walk($this->extensions, function (Extension $extension) {
-            $extension->onProcessStart();
+            $extension->onProcessIterationStart();
         });
     }
 
-    private function onExceptionThrown(\Throwable $exception, Message $message) : void
+    private function onMessageProcessingStart() : void
+    {
+        array_walk($this->extensions, function (Extension $extension) {
+            $extension->onMessageProcessingStart();
+        });
+    }
+
+    private function onMessageProcessingExceptionThrown(\Throwable $exception, Message $message) : void
     {
         array_walk($this->extensions, function (Extension $extension) use ($exception, $message) {
-            $extension->onExceptionThrown($exception, $message);
+            $extension->onMessageProcessingExceptionThrown($exception, $message);
         });
     }
 
-    private function isTimeLimitReached() : bool
+    private function onProcessIterationExceptionThrown(\Throwable $exception) : void
     {
-        if (!$this->timeLimit) {
-            return false;
-        }
-
-        return time() >= $this->processStart + $this->timeLimit;
+        array_walk($this->extensions, function (Extension $extension) use ($exception) {
+            $extension->onProcessIterationExceptionThrown($exception);
+        });
     }
 }
