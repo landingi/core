@@ -8,11 +8,19 @@ use Landingi\Shared\Infrastructure\Queue\Message;
 
 class EmptyExtension implements Extension
 {
-    public function onProcessStart() : void
+    public function onProcessIterationStart(): void
     {
     }
 
-    public function onExceptionThrown(\Throwable $exception, Message $message) : void
+    public function onMessageProcessingStart() : void
+    {
+    }
+
+    public function onMessageProcessingExceptionThrown(\Throwable $exception, Message $message) : void
+    {
+    }
+
+    public function onProcessIterationExceptionThrown(\Throwable $exception): void
     {
     }
 }
