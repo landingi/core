@@ -53,4 +53,3 @@ class DoctrinePaginator implements Paginator
         return $this->limit->toNumber();
     }
 }
-
