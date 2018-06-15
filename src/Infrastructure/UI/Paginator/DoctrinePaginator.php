@@ -10,9 +10,6 @@ use Landingi\Shared\Infrastructure\UI\Paginator\Query\QueryOffset;
 
 class DoctrinePaginator implements Paginator
 {
-    /**
-     * @var OrmPaginator
-     */
     private $paginator;
     private $limit;
     private $page;
