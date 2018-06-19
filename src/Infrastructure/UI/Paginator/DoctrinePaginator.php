@@ -5,21 +5,16 @@ namespace Landingi\Shared\Infrastructure\UI\Paginator;
 
 use Doctrine\ORM\Tools\Pagination\Paginator as OrmPaginator;
 use Landingi\Shared\Infrastructure\UI\Paginator;
-use Landingi\Shared\Infrastructure\UI\Paginator\Query\QueryLimit;
-use Landingi\Shared\Infrastructure\UI\Paginator\Query\QueryOffset;
 
 class DoctrinePaginator implements Paginator
 {
     private $paginator;
     private $page;
-    private $limit;
 
-    public function __construct(OrmPaginator $paginator, Page $page, QueryLimit $limit)
+    public function __construct(OrmPaginator $paginator, Page $page)
     {
         $this->paginator = $paginator;
         $this->page = $page;
-        $this->limit = $limit;
-        $this->setDelimeters();
     }
 
     public function getItems() : array
@@ -39,13 +34,6 @@ class DoctrinePaginator implements Paginator
 
     public function getLimit() : int
     {
-        return $this->limit->toNumber();
-    }
-
-    private function setDelimeters()
-    {
-        $offset = new QueryOffset($this->page, $this->limit);
-        $this->paginator->getQuery()->setFirstResult($offset->toNumber());
-        $this->paginator->getQuery()->setMaxResults($this->limit->toNumber());
+        return $this->paginator->getQuery()->getMaxResults();
     }
 }
