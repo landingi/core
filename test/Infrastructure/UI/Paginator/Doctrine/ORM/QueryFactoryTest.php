@@ -12,19 +12,31 @@ use PHPUnit\Framework\TestCase;
 
 class QueryFactoryTest extends TestCase
 {
-    public function testBuild()
+    /** @var Page */
+    private $page;
+    /** @var QueryLimit */
+    private $limit;
+    /** @var Query */
+    private $query;
+
+    public function setUp()
     {
-        $query = new Query(new FakeEntityManager());
-        $page = new Page(2);
-        $limit = new QueryLimit(13);
-        $query->setFirstResult($this->buildOffset($page, $limit)->toNumber());
-        $query->setMaxResults($limit->toNumber());
-        self::assertEquals($query, $this->buildQuery($page, $limit));
+        $this->page = new Page(2);
+        $this->limit = new QueryLimit(13);
+        $this->query = $this->buildQuery($this->page, $this->limit);
     }
 
-    private function buildOffset(Page $page, QueryLimit $limit) : QueryOffset
+    public function testGetFirstResult()
     {
-        return new QueryOffset($page, $limit);
+        self::assertEquals(
+            $this->buildOffset($this->page, $this->limit)->toNumber(),
+            $this->query->getFirstResult()
+        );
+    }
+
+    public function testGetMaxResult()
+    {
+        self::assertEquals($this->limit->toNumber(), $this->query->getMaxResults());
     }
 
     private function buildQuery(Page $page, QueryLimit $limit) : Query
@@ -36,5 +48,10 @@ class QueryFactoryTest extends TestCase
             $page,
             $limit
         );
+    }
+
+    private function buildOffset(Page $page, QueryLimit $limit) : QueryOffset
+    {
+        return new QueryOffset($page, $limit);
     }
 }
