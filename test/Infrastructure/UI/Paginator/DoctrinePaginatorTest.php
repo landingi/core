@@ -6,7 +6,7 @@ namespace Landingi\Shared\Infrastructure\UI\Paginator;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Tools\Pagination\Paginator as OrmPaginator;
 use Landingi\Fake\FakeEntityManager;
-use Landingi\Shared\Infrastructure\UI\Paginator\Factory\OrmQueryFactory;
+use Landingi\Shared\Infrastructure\UI\Paginator\Doctrine\ORM\QueryFactory;
 use Landingi\Shared\Infrastructure\UI\Paginator\Query\QueryLimit;
 use PHPUnit\Framework\TestCase;
 
@@ -72,12 +72,12 @@ class DoctrinePaginatorTest extends TestCase
 
     private function buildQuery(Page $page, QueryLimit $limit) : Query
     {
-        return (new OrmQueryFactory(
+        return (new QueryFactory())->build(
             new Query(
                 new FakeEntityManager()
             ),
             $page,
             $limit
-        ))->buildQueryWithDelimeters();
+        );
     }
 }
