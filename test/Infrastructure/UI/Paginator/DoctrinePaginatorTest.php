@@ -26,14 +26,13 @@ class DoctrinePaginatorTest extends TestCase
 
     public function testGetItems()
     {
-        $results = ['foo', 'bar'];
-        $this->ormPaginator->getIterator()->willReturn($results);
+        $this->ormPaginator->getIterator()->willReturn(['foo', 'bar']);
 
         $doctrinePaginator = new DoctrinePaginator(
             $this->ormPaginator->reveal(),
             $this->page
         );
-        self::assertCount(\count($results), $doctrinePaginator->getItems());
+        self::assertCount(2, $doctrinePaginator->getItems());
     }
 
     public function testCount()
