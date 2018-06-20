@@ -7,7 +7,6 @@ use Doctrine\ORM\Query;
 use Landingi\Fake\FakeEntityManager;
 use Landingi\Shared\Infrastructure\UI\Paginator\Page;
 use Landingi\Shared\Infrastructure\UI\Paginator\Query\QueryLimit;
-use Landingi\Shared\Infrastructure\UI\Paginator\Query\QueryOffset;
 use PHPUnit\Framework\TestCase;
 
 class QueryFactoryTest extends TestCase
@@ -29,7 +28,7 @@ class QueryFactoryTest extends TestCase
     public function testGetFirstResult()
     {
         self::assertEquals(
-            $this->buildOffset($this->page, $this->limit)->toNumber(),
+            13,
             $this->query->getFirstResult()
         );
     }
@@ -48,10 +47,5 @@ class QueryFactoryTest extends TestCase
             $page,
             $limit
         );
-    }
-
-    private function buildOffset(Page $page, QueryLimit $limit) : QueryOffset
-    {
-        return new QueryOffset($page, $limit);
     }
 }
