@@ -6,6 +6,8 @@ namespace Landingi\Shared\Infrastructure\UI\Paginator;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Tools\Pagination\Paginator as OrmPaginator;
 use Landingi\Fake\FakeEntityManager;
+use Landingi\Shared\Infrastructure\UI\Paginator\Doctrine\ORM\QueryFactory;
+use Landingi\Shared\Infrastructure\UI\Paginator\Query\QueryLimit;
 use PHPUnit\Framework\TestCase;
 
 class DoctrinePaginatorTest extends TestCase
@@ -25,7 +27,6 @@ class DoctrinePaginatorTest extends TestCase
     public function testGetItems()
     {
         $this->ormPaginator->getIterator()->willReturn(['foo', 'bar']);
-        $this->ormPaginator->getQuery()->willReturn($this->buildQuery());
 
         $doctrinePaginator = new DoctrinePaginator(
             $this->ormPaginator->reveal(),
@@ -55,20 +56,27 @@ class DoctrinePaginatorTest extends TestCase
 
     public function testGetLimit()
     {
-        $ormQuery = $this->buildQuery();
-        $ormQuery->setMaxResults(10);
-        $this->ormPaginator->getQuery()->willReturn($ormQuery);
+        $this->ormPaginator->getQuery()->willReturn(
+            $this->buildQuery(
+                new Page(3),
+                new QueryLimit($limit = 12)
+            )
+        );
         $doctrinePaginator = new DoctrinePaginator(
             $this->ormPaginator->reveal(),
             $this->page
         );
-        self::assertEquals(10, $doctrinePaginator->getLimit());
+        self::assertEquals($limit, $doctrinePaginator->getLimit());
     }
 
-    private function buildQuery() : Query
+    private function buildQuery(Page $page, QueryLimit $limit) : Query
     {
-        return new Query(
-            new FakeEntityManager()
+        return (new QueryFactory())->build(
+            new Query(
+                new FakeEntityManager()
+            ),
+            $page,
+            $limit
         );
     }
 }
