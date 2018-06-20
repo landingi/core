@@ -10,14 +10,17 @@ use Landingi\Shared\Infrastructure\UI\Paginator\Query\QueryLimit;
 
 class PaginatorFactory
 {
-    public static function build(QueryFactory $factory, Query $query, Page $page, QueryLimit $limit) : Paginator
+    private $factory;
+
+    public function __construct(QueryFactory $factory)
+    {
+        $this->factory = $factory;
+    }
+
+    public function build(Query $query, Page $page, QueryLimit $limit) : Paginator
     {
         return new Paginator(
-            $factory->build(
-                $query,
-                $page,
-                $limit
-            ),
+            $this->factory->build($query, $page, $limit),
             false
         );
     }

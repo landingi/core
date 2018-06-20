@@ -21,8 +21,7 @@ class PaginatorFactoryTest extends TestCase
             ),
             false
         );
-        self::assertEquals($paginator, PaginatorFactory::build(
-            new QueryFactory(),
+        self::assertEquals($paginator, (new PaginatorFactory(new QueryFactory()))->build(
             $query,
             $page,
             $limit
