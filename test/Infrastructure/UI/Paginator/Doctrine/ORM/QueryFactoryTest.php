@@ -11,41 +11,37 @@ use PHPUnit\Framework\TestCase;
 
 class QueryFactoryTest extends TestCase
 {
-    /** @var Page */
-    private $page;
-    /** @var QueryLimit */
-    private $limit;
     /** @var Query */
     private $query;
 
     public function setUp()
     {
-        $this->page = new Page(2);
-        $this->limit = new QueryLimit(13);
-        $this->query = $this->buildQuery($this->page, $this->limit);
+        $this->query = new Query(new FakeEntityManager());
     }
 
-    public function testGetFirstResult()
+    public function testOffsetForSecondPage()
     {
         self::assertEquals(
-            13,
-            $this->query->getFirstResult()
+            10,
+            $this->buildQuery(2, 10)->getFirstResult()
         );
     }
 
-    public function testGetMaxResult()
+    public function testOffsetForNinePage()
     {
-        self::assertEquals($this->limit->toNumber(), $this->query->getMaxResults());
+        self::assertEquals(
+            120,
+            $this->buildQuery(9, 15)->getFirstResult()
+        );
     }
 
-    private function buildQuery(Page $page, QueryLimit $limit) : Query
+    public function testLimit()
     {
-        return (new QueryFactory())->build(
-            new Query(
-                new FakeEntityManager()
-            ),
-            $page,
-            $limit
-        );
+        self::assertEquals(6, $this->buildQuery(3, 6)->getMaxResults());
+    }
+
+    private function buildQuery(int $page, int $limit) : Query
+    {
+        return (new QueryFactory())->build($this->query, new Page($page), new QueryLimit($limit));
     }
 }
