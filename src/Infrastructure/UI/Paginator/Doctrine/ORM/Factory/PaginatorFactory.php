@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Landingi\Shared\Infrastructure\UI\Paginator\Factory;
+namespace Landingi\Shared\Infrastructure\UI\Paginator\Doctrine\ORM\Factory;
 
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Tools\Pagination\Paginator as OrmPaginator;

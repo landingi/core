@@ -6,11 +6,12 @@ namespace Landingi\Shared\Infrastructure\UI\Paginator;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Tools\Pagination\Paginator as OrmPaginator;
 use Landingi\Fake\FakeEntityManager;
+use Landingi\Shared\Infrastructure\UI\Paginator\Doctrine\ORM\Paginator;
 use Landingi\Shared\Infrastructure\UI\Paginator\Doctrine\ORM\QueryFactory;
 use Landingi\Shared\Infrastructure\UI\Paginator\Query\QueryLimit;
 use PHPUnit\Framework\TestCase;
 
-class DoctrinePaginatorTest extends TestCase
+class PaginatorTest extends TestCase
 {
     /** @var OrmPaginator */
     private $ormPaginator;
@@ -28,7 +29,7 @@ class DoctrinePaginatorTest extends TestCase
     {
         $this->ormPaginator->getIterator()->willReturn(['foo', 'bar']);
 
-        $doctrinePaginator = new DoctrinePaginator(
+        $doctrinePaginator = new Paginator(
             $this->ormPaginator->reveal(),
             $this->page
         );
@@ -38,7 +39,7 @@ class DoctrinePaginatorTest extends TestCase
     public function testCount()
     {
         $this->ormPaginator->count()->willReturn(20);
-        $doctrinePaginator = new DoctrinePaginator(
+        $doctrinePaginator = new Paginator(
             $this->ormPaginator->reveal(),
             $this->page
         );
@@ -47,7 +48,7 @@ class DoctrinePaginatorTest extends TestCase
 
     public function testGetPage()
     {
-        $doctrinePaginator = new DoctrinePaginator(
+        $doctrinePaginator = new Paginator(
             $this->ormPaginator->reveal(),
             $this->page
         );
@@ -62,7 +63,7 @@ class DoctrinePaginatorTest extends TestCase
                 new QueryLimit($limit = 12)
             )
         );
-        $doctrinePaginator = new DoctrinePaginator(
+        $doctrinePaginator = new Paginator(
             $this->ormPaginator->reveal(),
             $this->page
         );
