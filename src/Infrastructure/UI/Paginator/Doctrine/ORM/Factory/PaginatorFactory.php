@@ -4,13 +4,13 @@ declare(strict_types=1);
 namespace Landingi\Shared\Infrastructure\UI\Paginator\Factory;
 
 use Doctrine\ORM\Query;
-use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\ORM\Tools\Pagination\Paginator as OrmPaginator;
+use Landingi\Shared\Infrastructure\UI\Paginator\Doctrine\ORM\Paginator;
 use Landingi\Shared\Infrastructure\UI\Paginator\Doctrine\ORM\QueryFactory;
-use Landingi\Shared\Infrastructure\UI\Paginator\DoctrinePaginator;
 use Landingi\Shared\Infrastructure\UI\Paginator\Page;
 use Landingi\Shared\Infrastructure\UI\Paginator\Query\QueryLimit;
 
-class DoctrinePaginatorFactory
+class PaginatorFactory
 {
     private $factory;
 
@@ -19,10 +19,10 @@ class DoctrinePaginatorFactory
         $this->factory = $factory;
     }
 
-    public function build(Query $query, Page $page, QueryLimit $limit) : DoctrinePaginator
+    public function build(Query $query, Page $page, QueryLimit $limit) : Paginator
     {
-        return new DoctrinePaginator(
-            new Paginator(
+        return new Paginator(
+            new OrmPaginator(
                 $this->factory->build($query, $page, $limit),
                 false
             ),

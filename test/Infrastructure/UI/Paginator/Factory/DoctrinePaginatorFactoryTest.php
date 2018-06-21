@@ -31,7 +31,7 @@ class DoctrinePaginatorFactoryTest extends TestCase
         $doctrinePaginator = new DoctrinePaginator($this->getOrmPaginator($query, $page, $limit), $page);
         self::assertEquals(
             $doctrinePaginator,
-            (new DoctrinePaginatorFactory($this->queryFactory))->build($query, $page, $limit)
+            (new PaginatorFactory($this->queryFactory))->build($query, $page, $limit)
         );
     }
 

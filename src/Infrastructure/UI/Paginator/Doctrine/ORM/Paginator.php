@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Landingi\Shared\Infrastructure\UI\Paginator;
+namespace Landingi\Shared\Infrastructure\UI\Paginator\Doctrine\ORM;
 
 use Doctrine\ORM\Tools\Pagination\Paginator as OrmPaginator;
-use Landingi\Shared\Infrastructure\UI\Paginator;
+use Landingi\Shared\Infrastructure\UI\Paginator\Page;
 
-class DoctrinePaginator implements Paginator
+class Paginator implements \Landingi\Shared\Infrastructure\UI\Paginator
 {
     private $paginator;
     private $page;
