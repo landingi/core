@@ -31,5 +31,11 @@
             "Landingi\\Fake\\" : "test/Fake/"
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "scripts": {
+        "test": [
+            "./vendor/bin/phpstan analyse src -l 7",
+            "./vendor/bin/phpunit test"
+        ]
+    }
 }

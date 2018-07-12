@@ -3,21 +3,22 @@ declare(strict_types=1);
 
 namespace Landingi\Shared\Infrastructure\Queue\Extension;
 
+use Landingi\Shared\Infrastructure\Clock;
 use Landingi\Shared\Infrastructure\Queue\Exception\LimitReached;
 
 class LimitTimeExtension extends EmptyExtension
 {
-    private $secondsLimit;
+    private $clock;
     private $deadline;
 
-    public function __construct(int $secondsLimit)
+    public function __construct(int $secondsLimit, Clock $clock)
     {
         if ($secondsLimit < 1) {
             throw new \InvalidArgumentException('Cannot set time limit to the past');
         }
 
-        $this->secondsLimit = $secondsLimit;
-        $this->deadline = time() + $secondsLimit;
+        $this->clock = $clock;
+        $this->deadline = $this->clock->time() + $secondsLimit;
     }
 
     /**
@@ -41,7 +42,7 @@ class LimitTimeExtension extends EmptyExtension
      */
     private function throwIfDeadlineReached()
     {
-        if (time() >= $this->deadline) {
+        if ($this->clock->time() >= $this->deadline) {
             throw new LimitReached("Time limit reached: {$this->deadline}");
         }
     }
