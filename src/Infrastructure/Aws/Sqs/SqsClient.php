@@ -15,7 +15,7 @@ class SqsClient extends BaseClient
             $options
         );
 
-        if (empty($config['credentials']) && !array_key_exists('credentials', $options)) {
+        if (getenv('AWS_CREDENTIALS_PROFILES_FILE')) {
             $config['credentials'] = CredentialProvider::ini('sqs', getenv('AWS_CREDENTIALS_PROFILES_FILE'));
         }
 
