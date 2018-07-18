@@ -84,11 +84,17 @@ class PaginatorTest extends TestCase
                 new QueryLimit(10)
             )
         );
-        $doctrinePaginator = new Paginator(
-            $this->ormPaginator->reveal(),
-            $this->page
-        );
-        self::assertEquals($this->page, $doctrinePaginator->getLastPage());
+        self::assertEquals($this->page, (new Paginator($this->ormPaginator->reveal(), $this->page))->getLastPage());
+    }
+
+    public function testOnFirstPage()
+    {
+        self::assertTrue((new Paginator($this->ormPaginator->reveal(), new Page(1)))->onFirstPage());
+    }
+
+    public function testNotOnFirstPage()
+    {
+        self::assertFalse((new Paginator($this->ormPaginator->reveal(), $this->page))->onFirstPage());
     }
 
     public function testOnLastPage()

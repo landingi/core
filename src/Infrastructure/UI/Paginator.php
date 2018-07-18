@@ -13,5 +13,6 @@ interface Paginator
     public function getLimit() : int;
     public function getFirstPage() : Page;
     public function getLastPage() : Page;
+    public function onFirstPage() : bool;
     public function onLastPage() : bool;
 }

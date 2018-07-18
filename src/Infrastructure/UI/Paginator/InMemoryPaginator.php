@@ -52,6 +52,11 @@ class InMemoryPaginator implements Paginator
         return new Page(1);
     }
 
+    public function onFirstPage() : bool
+    {
+        return $this->getPage()->equals($this->getFirstPage());
+    }
+
     public function onLastPage() : bool
     {
         return $this->getPage()->equals($this->getLastPage());

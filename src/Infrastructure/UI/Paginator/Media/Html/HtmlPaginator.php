@@ -30,7 +30,7 @@ class HtmlPaginator
 
     public function onFirstPage(): bool
     {
-        return $this->getPage()->equals(Paginator\Page::firstPage());
+        return $this->paginator->onFirstPage();
     }
 
     public function getPrevPage(): Paginator\Page
