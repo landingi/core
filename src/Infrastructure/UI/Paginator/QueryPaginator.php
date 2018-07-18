@@ -72,11 +72,7 @@ class QueryPaginator implements Paginator
 
     public function getLastPage() : Page
     {
-        if ($lastPage = (int) ceil($this->count() / $this->getLimit())) {
-            return new Page($lastPage);
-        }
-
-        return new Page(1);
+        return new Page((int) ceil($this->count() / $this->getLimit()));
     }
 
     public function onFirstPage() : bool
