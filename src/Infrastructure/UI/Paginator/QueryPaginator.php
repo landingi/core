@@ -64,4 +64,24 @@ class QueryPaginator implements Paginator
 
         return $this->result;
     }
+
+    public function getFirstPage() : Page
+    {
+        return Page::firstPage();
+    }
+
+    public function getLastPage() : Page
+    {
+        return new Page((int) ceil($this->count() / $this->getLimit()));
+    }
+
+    public function onFirstPage() : bool
+    {
+        return $this->getPage()->equals($this->getFirstPage());
+    }
+
+    public function onLastPage() : bool
+    {
+        return $this->getPage()->equals($this->getLastPage());
+    }
 }

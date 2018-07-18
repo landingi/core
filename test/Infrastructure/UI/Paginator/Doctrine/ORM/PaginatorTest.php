@@ -70,6 +70,65 @@ class PaginatorTest extends TestCase
         self::assertEquals($limit, $doctrinePaginator->getLimit());
     }
 
+    public function testGetFirstPage()
+    {
+        self::assertEquals(new Page(1), (new Paginator($this->ormPaginator->reveal(), $this->page))->getFirstPage());
+    }
+
+    public function testGetLastPage()
+    {
+        $this->ormPaginator->count()->willReturn(30);
+        $this->ormPaginator->getQuery()->willReturn(
+            $this->buildQuery(
+                $this->page,
+                new QueryLimit(10)
+            )
+        );
+        self::assertEquals($this->page, (new Paginator($this->ormPaginator->reveal(), $this->page))->getLastPage());
+    }
+
+    public function testOnFirstPage()
+    {
+        self::assertTrue((new Paginator($this->ormPaginator->reveal(), new Page(1)))->onFirstPage());
+    }
+
+    public function testNotOnFirstPage()
+    {
+        self::assertFalse((new Paginator($this->ormPaginator->reveal(), $this->page))->onFirstPage());
+    }
+
+    public function testOnLastPage()
+    {
+        $this->ormPaginator->count()->willReturn(30);
+        $this->ormPaginator->getQuery()->willReturn(
+            $this->buildQuery(
+                $this->page,
+                new QueryLimit(10)
+            )
+        );
+        $doctrinePaginator = new Paginator(
+            $this->ormPaginator->reveal(),
+            $this->page
+        );
+        self::assertTrue($doctrinePaginator->onLastPage());
+    }
+
+    public function testNotOnLastPage()
+    {
+        $this->ormPaginator->count()->willReturn(40);
+        $this->ormPaginator->getQuery()->willReturn(
+            $this->buildQuery(
+                $this->page,
+                new QueryLimit(10)
+            )
+        );
+        $doctrinePaginator = new Paginator(
+            $this->ormPaginator->reveal(),
+            $this->page
+        );
+        self::assertFalse($doctrinePaginator->onLastPage());
+    }
+
     private function buildQuery(Page $page, QueryLimit $limit) : Query
     {
         return (new QueryFactory())->build(
