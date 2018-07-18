@@ -70,6 +70,54 @@ class PaginatorTest extends TestCase
         self::assertEquals($limit, $doctrinePaginator->getLimit());
     }
 
+    public function testGetLastPage()
+    {
+        $this->ormPaginator->count()->willReturn(30);
+        $this->ormPaginator->getQuery()->willReturn(
+            $this->buildQuery(
+                $this->page,
+                new QueryLimit(10)
+            )
+        );
+        $doctrinePaginator = new Paginator(
+            $this->ormPaginator->reveal(),
+            $this->page
+        );
+        self::assertEquals(3, $doctrinePaginator->getLastPage());
+    }
+
+    public function testOnLastPage()
+    {
+        $this->ormPaginator->count()->willReturn(30);
+        $this->ormPaginator->getQuery()->willReturn(
+            $this->buildQuery(
+                $this->page,
+                new QueryLimit(10)
+            )
+        );
+        $doctrinePaginator = new Paginator(
+            $this->ormPaginator->reveal(),
+            $this->page
+        );
+        self::assertTrue($doctrinePaginator->onLastPage());
+    }
+
+    public function testNotOnLastPage()
+    {
+        $this->ormPaginator->count()->willReturn(40);
+        $this->ormPaginator->getQuery()->willReturn(
+            $this->buildQuery(
+                $this->page,
+                new QueryLimit(10)
+            )
+        );
+        $doctrinePaginator = new Paginator(
+            $this->ormPaginator->reveal(),
+            $this->page
+        );
+        self::assertFalse($doctrinePaginator->onLastPage());
+    }
+
     private function buildQuery(Page $page, QueryLimit $limit) : Query
     {
         return (new QueryFactory())->build(

@@ -50,13 +50,11 @@ class HtmlPaginator
 
     public function getLastPage(): int
     {
-        return (int) ceil($this->paginator->count() / $this->paginator->getLimit()) ?: 1;
+        return $this->paginator->getLastPage();
     }
 
     public function onLastPage(): bool
     {
-        return $this->getPage()->equals(
-            new Paginator\Page($this->getLastPage())
-        );
+        return $this->paginator->onLastPage();
     }
 }
