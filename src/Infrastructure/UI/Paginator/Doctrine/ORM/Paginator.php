@@ -37,15 +37,15 @@ class Paginator implements \Landingi\Shared\Infrastructure\UI\Paginator
         return $this->paginator->getQuery()->getMaxResults();
     }
 
-    public function getLastPage() : int
-    {
-        return (int) ceil($this->count() / $this->getLimit()) ?: 1;
-    }
-
     public function onLastPage() : bool
     {
         return $this->getPage()->equals(
             new Page($this->getLastPage())
         );
+    }
+
+    public function getLastPage() : int
+    {
+        return (int) ceil($this->count() / $this->getLimit()) ?: 1;
     }
 }
