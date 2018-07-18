@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Landingi\Shared\Infrastructure\UI;
 
+use Landingi\Shared\Infrastructure\UI\Paginator\Page;
+
 interface Paginator
 {
     public function getItems() : array;
@@ -10,5 +12,5 @@ interface Paginator
     public function getPage() : Paginator\Page;
     public function getLimit() : int;
     public function onLastPage() : bool;
-    public function getLastPage() : int;
+    public function getLastPage() : Page;
 }

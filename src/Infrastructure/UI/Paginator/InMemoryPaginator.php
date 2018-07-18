@@ -40,13 +40,15 @@ class InMemoryPaginator implements Paginator
 
     public function onLastPage() : bool
     {
-        return $this->getPage()->equals(
-            new Page($this->getLastPage())
-        );
+        return $this->getPage()->equals($this->getLastPage());
     }
 
-    public function getLastPage() : int
+    public function getLastPage() : Page
     {
-        return (int) ceil($this->count() / $this->getLimit()) ?: 1;
+        if ($lastPage = (int) ceil($this->count() / $this->getLimit())) {
+            return new Page($lastPage);
+        }
+
+        return new Page(1);
     }
 }

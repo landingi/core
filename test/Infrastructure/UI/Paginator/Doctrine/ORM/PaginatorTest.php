@@ -83,7 +83,7 @@ class PaginatorTest extends TestCase
             $this->ormPaginator->reveal(),
             $this->page
         );
-        self::assertEquals(3, $doctrinePaginator->getLastPage());
+        self::assertEquals($this->page, $doctrinePaginator->getLastPage());
     }
 
     public function testOnLastPage()

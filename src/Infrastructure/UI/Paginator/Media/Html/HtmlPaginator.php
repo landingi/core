@@ -50,7 +50,7 @@ class HtmlPaginator
 
     public function getLastPage(): int
     {
-        return $this->paginator->getLastPage();
+        return $this->paginator->getLastPage()->toNumber();
     }
 
     public function onLastPage(): bool
