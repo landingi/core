@@ -70,6 +70,11 @@ class PaginatorTest extends TestCase
         self::assertEquals($limit, $doctrinePaginator->getLimit());
     }
 
+    public function testGetFirstPage()
+    {
+        self::assertEquals(new Page(1), (new Paginator($this->ormPaginator->reveal(), $this->page))->getFirstPage());
+    }
+
     public function testGetLastPage()
     {
         $this->ormPaginator->count()->willReturn(30);

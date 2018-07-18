@@ -65,9 +65,9 @@ class QueryPaginator implements Paginator
         return $this->result;
     }
 
-    public function onLastPage() : bool
+    public function getFirstPage() : Page
     {
-        return $this->getPage()->equals($this->getLastPage());
+        return Page::firstPage();
     }
 
     public function getLastPage() : Page
@@ -77,5 +77,10 @@ class QueryPaginator implements Paginator
         }
 
         return new Page(1);
+    }
+
+    public function onLastPage() : bool
+    {
+        return $this->getPage()->equals($this->getLastPage());
     }
 }

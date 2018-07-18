@@ -38,9 +38,9 @@ class InMemoryPaginator implements Paginator
         return \count($this->results);
     }
 
-    public function onLastPage() : bool
+    public function getFirstPage() : Page
     {
-        return $this->getPage()->equals($this->getLastPage());
+        return Page::firstPage();
     }
 
     public function getLastPage() : Page
@@ -50,5 +50,10 @@ class InMemoryPaginator implements Paginator
         }
 
         return new Page(1);
+    }
+
+    public function onLastPage() : bool
+    {
+        return $this->getPage()->equals($this->getLastPage());
     }
 }
