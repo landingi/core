@@ -17,6 +17,10 @@ class SqsClient extends BaseClient
 
         if (getenv('AWS_CREDENTIALS_PROFILES_FILE')) {
             $config['credentials'] = CredentialProvider::ini('sqs', getenv('AWS_CREDENTIALS_PROFILES_FILE'));
+        } else {
+            $config['credentials'] = CredentialProvider::memoize(
+                CredentialProvider::defaultProvider()
+            );
         }
 
         if ($endpoint = getenv('AWS_SQS_ENDPOINT')) {
