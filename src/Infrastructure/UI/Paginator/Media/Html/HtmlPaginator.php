@@ -5,15 +5,8 @@ namespace Landingi\Shared\Infrastructure\UI\Paginator\Media\Html;
 
 use Landingi\Shared\Infrastructure\UI\Paginator;
 
-class HtmlPaginator
+class HtmlPaginator extends Paginator\Media\MediaPaginator
 {
-    private $paginator;
-
-    public function __construct(Paginator $paginator)
-    {
-        $this->paginator = $paginator;
-    }
-
     public function __toString()
     {
         if (1 === $this->getLastPage()) {
@@ -28,33 +21,8 @@ class HtmlPaginator
         );
     }
 
-    public function onFirstPage(): bool
-    {
-        return $this->paginator->onFirstPage();
-    }
-
-    public function getPrevPage(): Paginator\Page
-    {
-        return $this->getPage()->prevPage();
-    }
-
-    public function getNextPage(): Paginator\Page
-    {
-        return $this->getPage()->nextPage();
-    }
-
-    public function getPage(): Paginator\Page
-    {
-        return $this->paginator->getPage();
-    }
-
-    public function getLastPage(): int
+    public function getLastPage() : int
     {
         return $this->paginator->getLastPage()->toNumber();
-    }
-
-    public function onLastPage(): bool
-    {
-        return $this->paginator->onLastPage();
     }
 }
