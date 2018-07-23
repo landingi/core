@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Landingi\Shared\Infrastructure\UI\Paginator\Media\Hal;
 
+use Landingi\Shared\Infrastructure\Request\UrlQuery;
 use Landingi\Shared\Infrastructure\UI\Paginator;
 use Landingi\Shared\Infrastructure\UI\Paginator\Media\MediaPaginator;
-use Landingi\Shared\Infrastructure\UrlQuery;
 use Psr\Http\Message\UriInterface;
 
 class HalPaginator extends MediaPaginator implements \JsonSerializable

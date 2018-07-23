@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Landingi\Shared\Infrastructure\UI\Paginator\Media\Hal;
 
-use Landingi\Shared\Infrastructure\UrlQuery;
+use Landingi\Shared\Infrastructure\Request\UrlQuery;
 use PHPUnit\Framework\TestCase;
 
 class UrlQueryTest extends TestCase

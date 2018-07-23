@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Landingi\Shared\Infrastructure;
+namespace Landingi\Shared\Infrastructure\Request;
 
 class UrlQuery
 {
