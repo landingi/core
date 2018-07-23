@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Landingi\Shared\Infrastructure\UI\Paginator\Media\Hal;
+namespace Landingi\Shared\Infrastructure;
 
 class UrlQuery
 {
