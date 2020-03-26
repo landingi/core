@@ -39,4 +39,12 @@ class EmailTest extends TestCase
     {
         self::assertSame('example.com', (new Email('user@example.com'))->getHost());
     }
+
+    public function testWhitespaces() : void
+    {
+        $email = 'test@landingi.com';
+        $this->assertSame($email, (string) new Email(" $email "));
+        $this->assertSame($email, (string) new Email("\t\t$email"));
+        $this->assertSame($email, (string) new Email("$email\n\n"));
+    }
 }
