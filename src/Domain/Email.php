@@ -16,6 +16,8 @@ final class Email
      */
     public function __construct(string $address)
     {
+        $address = trim($address);
+
         if (false === filter_var($address, FILTER_VALIDATE_EMAIL)) {
             throw InvalidEmailAddress::invalidFormat($address);
         }
