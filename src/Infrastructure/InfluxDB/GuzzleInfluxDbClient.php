@@ -15,7 +15,7 @@ final class GuzzleInfluxDbClient extends Client implements InfluxDbClient
         ]);
     }
 
-    public function write(string $measurement, array $tags = [], array $fields = [], $db = 'application'): void
+    public function write(string $measurement, array $tags = [], array $fields = [], string $db = 'application'): void
     {
         $this->post(
             "/write?db=$db",
@@ -30,13 +30,7 @@ final class GuzzleInfluxDbClient extends Client implements InfluxDbClient
 
     private function tagsToString(array $tags): string
     {
-        $tagsString = "";
-
-        foreach ($tags as $name => $value) {
-            $tagsString .= ",$name=$value";
-        }
-
-        return $tagsString;
+        return empty($tags) ? '' :  sprintf(',%s', http_build_query($tags,'',','));
     }
 
     private function fieldsToString(array $fields): string

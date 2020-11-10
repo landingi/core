@@ -22,7 +22,7 @@ class GuzzleInfluxDbClientTest extends TestCase
             $this->client->getBody(
                 'measurement',
                 ['tag_key' => 'tag_value'],
-                ['field_key' => 'field_value'],
+                ['field_key' => 'field_value']
             )
         );
         $this->assertEquals(
