@@ -27,7 +27,7 @@ final class Currency
         'ES' => 'SPAIN',
     ];
 
-    private const COUNTRIES_WITH_GBP_CURRENCY = ['GB', 'GI', 'GG', 'IM', 'SH', 'GS',];
+    private const COUNTRIES_WITH_GBP_CURRENCY = ['GB', 'GI', 'GG', 'IM', 'SH', 'GS'];
     private const USD = 'USD';
     private const PLN = 'PLN';
     private const GBP = 'GBP';
@@ -39,51 +39,13 @@ final class Currency
 
     private $code;
 
-    public static function forCountryName($countryName): Currency
-    {
-        $countryName = strtoupper($countryName);
-
-        if ($countryName === 'POLAND') {
-            return new self(self::PLN);
-        }
-
-        if (in_array($countryName, self::COUNTRIES_WITH_EURO_CURRENCY, true)) {
-            return new self(self::EUR);
-        }
-
-        return new self(self::USD);
-    }
-
-    public static function forCountryCode(string $countryCode): Currency
-    {
-        $countryCode = strtoupper($countryCode);
-
-        if ($countryCode === 'PL') {
-            return new self(self::PLN);
-        }
-
-        if (in_array($countryCode, self::COUNTRIES_WITH_GBP_CURRENCY)) {
-            return new self(self::GBP);
-        }
-
-        if (array_key_exists($countryCode, self::COUNTRIES_WITH_EURO_CURRENCY)) {
-            return new self(self::EUR);
-        }
-
-        if ($countryCode === 'BR') {
-            return new self(self::BRL);
-        }
-
-        return new self(self::USD);
-    }
-
     /**
      * @throws \InvalidArgumentException
      */
     public function __construct(string $code)
     {
-        if (!in_array($code, [self::USD, self::PLN, self::RUB, self::EUR, self::GBP, self::BRL], true)) {
-            throw new \InvalidArgumentException('Not valid currency: ' . $code);
+        if (! \in_array($code, [self::USD, self::PLN, self::RUB, self::EUR, self::GBP, self::BRL], true)) {
+            throw new \InvalidArgumentException('Not valid currency: '.$code);
         }
 
         $this->code = $code;
@@ -94,7 +56,45 @@ final class Currency
         return $this->code;
     }
 
-    public function equals(Currency $currency): bool
+    public static function forCountryName($countryName): self
+    {
+        $countryName = strtoupper($countryName);
+
+        if ('POLAND' === $countryName) {
+            return new self(self::PLN);
+        }
+
+        if (\in_array($countryName, self::COUNTRIES_WITH_EURO_CURRENCY, true)) {
+            return new self(self::EUR);
+        }
+
+        return new self(self::USD);
+    }
+
+    public static function forCountryCode(string $countryCode): self
+    {
+        $countryCode = strtoupper($countryCode);
+
+        if ('PL' === $countryCode) {
+            return new self(self::PLN);
+        }
+
+        if (\in_array($countryCode, self::COUNTRIES_WITH_GBP_CURRENCY)) {
+            return new self(self::GBP);
+        }
+
+        if (\array_key_exists($countryCode, self::COUNTRIES_WITH_EURO_CURRENCY)) {
+            return new self(self::EUR);
+        }
+
+        if ('BR' === $countryCode) {
+            return new self(self::BRL);
+        }
+
+        return new self(self::USD);
+    }
+
+    public function equals(self $currency): bool
     {
         return $currency->code === $this->code;
     }
@@ -124,6 +124,6 @@ final class Currency
 
     public function hasSymbolOnTheLeftSide(): bool
     {
-        return in_array($this->code, self::CURRENCIES_WITH_LEFT_SIDE_SYMBOL);
+        return \in_array($this->code, self::CURRENCIES_WITH_LEFT_SIDE_SYMBOL);
     }
 }

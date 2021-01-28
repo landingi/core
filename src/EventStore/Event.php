@@ -22,8 +22,8 @@ final class Event
         AggregateUuid $aggregateUuid,
         AccountUuid $accountUuid,
         UserUuid $userUuid,
-        SourceIp $sourceIp = null,
-        AccountUuid $subaccountUuid = null
+        ?SourceIp $sourceIp = null,
+        ?AccountUuid $subaccountUuid = null
     ) {
         $this->name = $name;
         $this->data = $data;

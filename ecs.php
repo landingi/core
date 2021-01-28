@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
+use PhpCsFixer\Fixer\FunctionNotation\ReturnTypeDeclarationFixer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
@@ -18,17 +19,20 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/src',
         __DIR__ . '/tests',
     ]);
-
+    $parameters->set(Option::SKIP, [
+        \PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer::class
+    ]);
     $parameters->set(Option::SETS, [
-        // run and fix, one by one
-        // SetList::SPACES,
-        // SetList::ARRAY,
-        // SetList::DOCBLOCK,
-        // SetList::NAMESPACES,
-        // SetList::CONTROL_STRUCTURES,
-        // SetList::CLEAN_CODE,
-        // SetList::PSR_12,
-        // SetList::PHP_70,
-        // SetList::PHP_71,
+        SetList::SPACES,
+        SetList::ARRAY,
+        SetList::DOCBLOCK,
+        SetList::NAMESPACES,
+        SetList::CONTROL_STRUCTURES,
+        SetList::CLEAN_CODE,
+        SetList::PSR_12,
+        SetList::PHP_70,
+        SetList::PHP_71,
+        SetList::SYMFONY,
+        SetList::SYMFONY_RISKY,
     ]);
 };

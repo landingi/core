@@ -5,5 +5,5 @@ namespace Landingi\Core\Queue;
 
 interface MessageMetadata
 {
-    public function getDelay();
+    public function getDelay(): int;
 }

@@ -40,10 +40,10 @@ final class SqsQueue implements QueueClient
     {
         $endpoint = (string) $this->client->getEndpoint();
 
-        if (!$endpoint) {
+        if (! $endpoint) {
             $endpoint = sprintf('https://sqs.%s.amazonaws.com/08482476796', $this->client->getRegion());
         }
 
-        return "$endpoint/$this->queue";
+        return "${endpoint}/{$this->queue}";
     }
 }

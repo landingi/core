@@ -14,7 +14,7 @@ final class Language
 
     public function isAvailable(): bool
     {
-        return in_array($this->name, ['en', 'pl']);
+        return \in_array($this->name, ['en', 'pl']);
     }
 
     public function getName(): string

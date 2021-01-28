@@ -5,5 +5,5 @@ namespace Landingi\Core\Queue;
 
 interface QueueClient
 {
-    public function sendMessage(Message $message, MessageMetadata $metadata);
+    public function sendMessage(Message $message, MessageMetadata $metadata): void;
 }

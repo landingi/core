@@ -6,5 +6,6 @@ namespace Landingi\Core\Queue;
 interface Message
 {
     public function getBody(): array;
+
     public function jsonSerialize(): array;
 }

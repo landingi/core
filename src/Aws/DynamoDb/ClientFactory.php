@@ -10,6 +10,5 @@ final class ClientFactory
 {
     public function build(Credentials $credentials, string $region, string $endpoint): DynamoDbClient
     {
-
     }
 }

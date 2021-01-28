@@ -14,17 +14,17 @@ final class CreatedAt implements \JsonSerializable
         $this->createdAt = $createdAt;
     }
 
+    public function __toString(): string
+    {
+        return $this->createdAt->format('Y-m-d H:i:s');
+    }
+
     public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
     }
 
     public function jsonSerialize(): string
-    {
-        return $this->createdAt->format('Y-m-d H:i:s');
-    }
-
-    public function __toString(): string
     {
         return $this->createdAt->format('Y-m-d H:i:s');
     }

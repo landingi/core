@@ -14,17 +14,17 @@ final class UserUuid implements \JsonSerializable
         $this->uuid = $uuid;
     }
 
+    public function __toString(): string
+    {
+        return $this->uuid->jsonSerialize();
+    }
+
     public function getUuid(): Uuid
     {
         return $this->uuid;
     }
 
     public function jsonSerialize(): string
-    {
-        return $this->uuid->jsonSerialize();
-    }
-
-    public function __toString(): string
     {
         return $this->uuid->jsonSerialize();
     }

@@ -12,17 +12,17 @@ final class SourceIp implements \JsonSerializable
         $this->sourceIp = $sourceIp;
     }
 
+    public function __toString(): string
+    {
+        return $this->sourceIp;
+    }
+
     public function getSourceIp(): string
     {
         return $this->sourceIp;
     }
 
     public function jsonSerialize(): string
-    {
-        return $this->sourceIp;
-    }
-
-    public function __toString(): string
     {
         return $this->sourceIp;
     }
