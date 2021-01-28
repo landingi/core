@@ -2,41 +2,27 @@
     "name": "landingi/core",
     "description": "Landingi Standard Library",
     "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "nexik",
-            "email": "tomek@landingi.com"
-        }
-    ],
+    "license": "proprietary",
     "require": {
-        "php": "^7.1",
-        "doctrine/dbal": "^2.6",
-        "doctrine/orm": "^2.6",
-        "aws/aws-sdk-php": "^3.52",
-        "monolog/monolog": "^1.23",
-        "guzzlehttp/guzzle": "^6.5|^7.2"
+        "php": "^7.3",
+        "aws/aws-sdk-php": "^3.172",
+        "ext-json": "*",
+        "symfony/uid": "^5.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.5",
-        "phpstan/phpstan": "^0.9.1"
+        "phpunit/phpunit": "^9.0",
+        "phpstan/phpstan": "^0.12",
+        "symplify/easy-coding-standard": "^9.0"
     },
     "autoload": {
         "psr-4": {
-            "Landingi\\Shared\\" : "src/"
+            "Landingi\\Core\\" : "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Landingi\\Shared\\" : "test/",
-            "Landingi\\Fake\\" : "test/Fake/"
+            "Landingi\\Core\\" : "tests"
         }
     },
-    "minimum-stability": "stable",
-    "scripts": {
-        "test": [
-            "./vendor/bin/phpstan analyse src -l 7",
-            "./vendor/bin/phpunit test"
-        ]
-    }
+    "minimum-stability": "stable"
 }
