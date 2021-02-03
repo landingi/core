@@ -5,7 +5,7 @@ namespace Landingi\Core;
 
 final class Language
 {
-    private $name;
+    private string $name;
 
     public function __construct(string $name)
     {

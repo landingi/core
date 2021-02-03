@@ -37,7 +37,7 @@ final class Currency
 
     private const CURRENCIES_WITH_LEFT_SIDE_SYMBOL = [self::GBP, self::USD, self::BRL];
 
-    private $code;
+    private string $code;
 
     /**
      * @throws \InvalidArgumentException
@@ -56,7 +56,7 @@ final class Currency
         return $this->code;
     }
 
-    public static function forCountryName($countryName): self
+    public static function forCountryName(string $countryName): self
     {
         $countryName = strtoupper($countryName);
 
@@ -120,6 +120,8 @@ final class Currency
             case self::BRL:
                 return 'R$';
         }
+
+        return '';
     }
 
     public function hasSymbolOnTheLeftSide(): bool
