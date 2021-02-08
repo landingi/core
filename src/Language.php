@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Landingi\Core;
 
+use function in_array;
+
 final class Language
 {
     private string $name;
@@ -14,7 +16,7 @@ final class Language
 
     public function isAvailable(): bool
     {
-        return \in_array($this->name, ['en', 'pl']);
+        return in_array($this->name, ['en', 'pl']);
     }
 
     public function getName(): string
