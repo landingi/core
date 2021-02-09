@@ -19,7 +19,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/tests',
     ]);
     $parameters->set(Option::SKIP, [
-        \PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer::class
+        \PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer::class => null,
+        \PhpCsFixer\Fixer\FunctionNotation\NativeFunctionInvocationFixer::class => null,
     ]);
     $parameters->set(Option::SETS, [
         SetList::SPACES,
@@ -29,8 +30,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         SetList::CONTROL_STRUCTURES,
         SetList::CLEAN_CODE,
         SetList::PSR_12,
-        SetList::PHP_70,
-        SetList::PHP_71,
         SetList::SYMFONY,
         SetList::SYMFONY_RISKY,
     ]);
