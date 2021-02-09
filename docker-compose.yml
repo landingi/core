@@ -1,0 +1,18 @@
+services:
+    core:
+        container_name: "core"
+        image: ferror/symfony-image
+        command: ["make", "run"]
+        volumes:
+            - ./:/app:delegated
+        networks:
+            - ferror
+
+networks:
+    ferror:
+        name: ferror
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 192.168.10.0/24

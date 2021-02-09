@@ -1,0 +1,11 @@
+parameters:
+    level: 7
+    paths:
+        - src
+        - tests
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        - '#Property [a-zA-Z0-9\\]+::[a-zA-Z0-9\\\$]+ is never read, only written.#'
+        - '#Property [a-zA-Z0-9\\]+::[a-zA-Z0-9\\\$]+ is never written, only read.#'
