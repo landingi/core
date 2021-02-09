@@ -2,13 +2,11 @@
     "name": "landingi/core",
     "description": "Landingi Standard Library",
     "type": "library",
-    "license": "proprietary",
+    "license": "MIT",
     "version": "3.0.0",
     "require": {
         "php": "^7.4",
-        "ext-json": "*",
-        "aws/aws-sdk-php": "^3.172",
-        "symfony/uid": "^5.2"
+        "ext-json": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
