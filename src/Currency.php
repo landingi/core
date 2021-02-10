@@ -3,6 +3,10 @@ declare(strict_types=1);
 
 namespace Landingi\Core;
 
+use InvalidArgumentException;
+use function array_key_exists;
+use function in_array;
+
 final class Currency
 {
     private const COUNTRIES_WITH_EURO_CURRENCY = [
@@ -40,12 +44,12 @@ final class Currency
     private string $code;
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct(string $code)
     {
-        if (! \in_array($code, [self::USD, self::PLN, self::RUB, self::EUR, self::GBP, self::BRL], true)) {
-            throw new \InvalidArgumentException('Not valid currency: '.$code);
+        if (! in_array($code, [self::USD, self::PLN, self::RUB, self::EUR, self::GBP, self::BRL], true)) {
+            throw new InvalidArgumentException('Not valid currency: '.$code);
         }
 
         $this->code = $code;
@@ -64,7 +68,7 @@ final class Currency
             return new self(self::PLN);
         }
 
-        if (\in_array($countryName, self::COUNTRIES_WITH_EURO_CURRENCY, true)) {
+        if (in_array($countryName, self::COUNTRIES_WITH_EURO_CURRENCY, true)) {
             return new self(self::EUR);
         }
 
@@ -79,11 +83,11 @@ final class Currency
             return new self(self::PLN);
         }
 
-        if (\in_array($countryCode, self::COUNTRIES_WITH_GBP_CURRENCY)) {
+        if (in_array($countryCode, self::COUNTRIES_WITH_GBP_CURRENCY)) {
             return new self(self::GBP);
         }
 
-        if (\array_key_exists($countryCode, self::COUNTRIES_WITH_EURO_CURRENCY)) {
+        if (array_key_exists($countryCode, self::COUNTRIES_WITH_EURO_CURRENCY)) {
             return new self(self::EUR);
         }
 
@@ -126,6 +130,6 @@ final class Currency
 
     public function hasSymbolOnTheLeftSide(): bool
     {
-        return \in_array($this->code, self::CURRENCIES_WITH_LEFT_SIDE_SYMBOL);
+        return in_array($this->code, self::CURRENCIES_WITH_LEFT_SIDE_SYMBOL);
     }
 }
