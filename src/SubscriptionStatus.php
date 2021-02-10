@@ -21,7 +21,7 @@ final class SubscriptionStatus
      */
     public function __construct(string $status)
     {
-        if (!in_array($status, self::AVAILABLE_STATUS)) {
+        if (! in_array($status, self::AVAILABLE_STATUS)) {
             throw new Exception('Invalid subscription status');
         }
 
