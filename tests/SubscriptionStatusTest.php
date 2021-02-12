@@ -19,6 +19,6 @@ final class SubscriptionStatusTest extends TestCase
     public function testItIsInvalidStatus(): void
     {
         $this->expectException(Exception::class);
-        new SubscriptionStatus('InvalidStatus');
+        new SubscriptionStatus('InvalidArgumentException');
     }
 }
