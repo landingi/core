@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Landingi\Core;
 
-use InvalidArgumentException;
 use function in_array;
+use InvalidArgumentException;
 
 final class SubscriptionStatus
 {
