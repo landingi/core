@@ -4,4 +4,4 @@
 
 Q: Create own Money VO or use existing libraries?
 
-A: Our Money VO is really limited and to properly work with money you should use `moneyphp/money` library.
+A: Our Money VO is really limited and to properly work with money you should use `moneyphp/money`library. It's better to store money as string/bigint that float.
